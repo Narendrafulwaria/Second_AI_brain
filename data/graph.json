@@ -1,0 +1,234 @@
+{
+  "nodes": [
+    {
+      "id": "32cd6c84",
+      "label": "A comprehensive implementation plan for SecondSelf",
+      "title": "File: implementation.md\n# SecondSelf — Phase-Wise Implementation Plan\n\n> **What to build, in what order.** Derived from [`architecture.md`](./architecture.md) and [`problemstatement.md`](./problemstat",
+      "group": "Projects",
+      "color": "#FF6B6B",
+      "tags": [
+        "SecondSelf",
+        "Phase-Wise Implementation Plan",
+        " PARA Method",
+        "Knowledge Organization"
+      ],
+      "category": "Projects"
+    },
+    {
+      "id": "873395af",
+      "label": "Building a personal AI-powered second brain that c",
+      "title": "File: problemstatement.md\n# SecondSelf — Your Personal AI Second Brain\n\n## Problem Statement\n\nEvery notes app fails the same way: you capture hundreds of notes, bookmarks, PDFs, and ideas — and then y",
+      "group": "Projects",
+      "color": "#FF6B6B",
+      "tags": [
+        "SecondSelf",
+        "AI",
+        "Personal Knowledge Management",
+        " PARA Method"
+      ],
+      "category": "Projects"
+    },
+    {
+      "id": "cec523d5",
+      "label": "Implementation plan for SecondSelf, a personal kno",
+      "title": "File: implementation.md\n# SecondSelf — Phase-Wise Implementation Plan\n\n> **What to build, in what order.** Derived from [`architecture.md`](./architecture.md) and [`problemstatement.md`](./problemstat",
+      "group": "Projects",
+      "color": "#FF6B6B",
+      "tags": [
+        "SecondSelf",
+        "Personal Knowledge Management",
+        "Streamlit",
+        "Groq",
+        " PARA Method"
+      ],
+      "category": "Projects"
+    },
+    {
+      "id": "d053d5b9",
+      "label": "Implementing a classification pipeline using Groq ",
+      "title": "Todo: Implement the classification pipeline using Groq API and Llama 3",
+      "group": "Projects",
+      "color": "#FF6B6B",
+      "tags": [
+        "Groq API",
+        "Llama 3",
+        "Classification Pipeline"
+      ],
+      "category": "Projects"
+    },
+    {
+      "id": "f28a58e1",
+      "label": "Setting up the PARA method for organizing personal",
+      "title": "Remember to set up the PARA method for organizing my personal knowledge base",
+      "group": "Projects",
+      "color": "#FF6B6B",
+      "tags": [
+        " PARA method",
+        "personal knowledge base",
+        "organization"
+      ],
+      "category": "Projects"
+    },
+    {
+      "id": "be758960",
+      "label": "Verification note for phase 1 testing",
+      "title": "Test note for phase 1 verification",
+      "group": "Projects",
+      "color": "#FF6B6B",
+      "tags": [
+        "phase 1",
+        "verification",
+        "testing"
+      ],
+      "category": "Projects"
+    },
+    {
+      "id": "8633f1e8",
+      "label": "A learning plan for understanding and working with",
+      "title": "Learning plan for Python async",
+      "group": "Resources",
+      "color": "#45B7D1",
+      "tags": [
+        "Python",
+        "async",
+        "learning",
+        "programming"
+      ],
+      "category": "Resources"
+    },
+    {
+      "id": "6934612b",
+      "label": "An article about vector databases, their use cases",
+      "title": "URL: https://www.pinecone.io/learn/vector-database/\nTitle: What is a Vector Database & How Does it Work? Use Cases + Examples | Pinecone\nPreview: Get the latest updates via email when they're publishe",
+      "group": "Resources",
+      "color": "#45B7D1",
+      "tags": [
+        "vector database",
+        "Pinecone",
+        "database technology"
+      ],
+      "category": "Resources"
+    },
+    {
+      "id": "777dd2b7",
+      "label": "Documentation for Python's asyncio library, coveri",
+      "title": "URL: https://docs.python.org/3/library/asyncio.html\nTitle: asyncio â Asynchronous I/O — Python 3.14.6 documentation\nPreview: Networking and Interprocess Communication",
+      "group": "Resources",
+      "color": "#45B7D1",
+      "tags": [
+        "Python",
+        "asyncio",
+        "asynchronous programming"
+      ],
+      "category": "Resources"
+    },
+    {
+      "id": "551db84f",
+      "label": "Example domain for use in documentation, not for o",
+      "title": "URL: https://example.com\nTitle: Example Domain\nPreview: This domain is for use in documentation examples without needing permission. Avoid use in operations.",
+      "group": "Resources",
+      "color": "#45B7D1",
+      "tags": [
+        "documentation",
+        "examples",
+        "reference"
+      ],
+      "category": "Resources"
+    },
+    {
+      "id": "5997f2a2",
+      "label": "Exploring RAG systems and their integration with v",
+      "title": "I need to learn more about RAG systems and how they work with vector databases",
+      "group": "Resources",
+      "color": "#45B7D1",
+      "tags": [
+        "RAG systems",
+        "vector databases",
+        "learning"
+      ],
+      "category": "Resources"
+    },
+    {
+      "id": "099be2f0",
+      "label": "Introduction to vector databases, their use cases,",
+      "title": "URL: https://www.pinecone.io/learn/vector-database/\nTitle: What is a Vector Database & How Does it Work? Use Cases + Examples | Pinecone\nPreview: Get the latest updates via email when they're publishe",
+      "group": "Resources",
+      "color": "#45B7D1",
+      "tags": [
+        "vector database",
+        "Pinecone",
+        "machine learning"
+      ],
+      "category": "Resources"
+    },
+    {
+      "id": "49297f79",
+      "label": "Langchain is an open-source platform for building ",
+      "title": "URL: https://github.com/hwchase17/langchain\nTitle: GitHub - langchain-ai/langchain: The agent engineering platform. · GitHub\nPreview: We read every piece of feedback, and take your input very seriousl",
+      "group": "Resources",
+      "color": "#45B7D1",
+      "tags": [
+        "AI",
+        "langchain",
+        "agent engineering"
+      ],
+      "category": "Resources"
+    },
+    {
+      "id": "90bce923",
+      "label": "Note about integration testing in the context of m",
+      "title": "Integration test note about machine learning",
+      "group": "Resources",
+      "color": "#45B7D1",
+      "tags": [
+        "machine learning",
+        "integration test",
+        "testing"
+      ],
+      "category": "Resources"
+    },
+    {
+      "id": "b0aa87f9",
+      "label": "Streamlit is a useful tool for rapid development o",
+      "title": "Streamlit is great for building quick interactive web apps with Python",
+      "group": "Resources",
+      "color": "#45B7D1",
+      "tags": [
+        "Streamlit",
+        "Python",
+        "Web Development"
+      ],
+      "category": "Resources"
+    },
+    {
+      "id": "03dfbfcf",
+      "label": "Using embeddings to find semantically similar note",
+      "title": "Key insight: Embeddings help find semantically similar notes, not just keyword matches",
+      "group": "Resources",
+      "color": "#45B7D1",
+      "tags": [
+        "note-taking",
+        "embeddings",
+        "semantic search"
+      ],
+      "category": "Resources"
+    }
+  ],
+  "edges": [
+    {
+      "source": "32cd6c84",
+      "target": "cec523d5",
+      "similarity": 1.0
+    },
+    {
+      "source": "6934612b",
+      "target": "099be2f0",
+      "similarity": 1.0
+    }
+  ],
+  "meta": {
+    "generated_at": "2026-07-22T06:39:16.880157+00:00",
+    "node_count": 16,
+    "edge_count": 2
+  }
+}

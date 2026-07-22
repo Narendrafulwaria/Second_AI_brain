@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecondSelf Knowledge Graph</title>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f8f9fa;
+        }
+        #graph-container {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
+        }
+        .graph-header {
+            padding: 16px;
+            background-color: white;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .graph-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        .graph-stats {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="graph-header">
+        <div class="graph-title">🧠 Knowledge Graph</div>
+        <div class="graph-stats" id="graph-stats"></div>
+    </div>
+    <div id="graph-container"></div>
+
+    <script>
+        // Graph data will be injected by Python
+        const graphData = {{ graph_data | safe }};
+
+        // Initialize network
+        const container = document.getElementById('graph-container');
+        
+        const nodes = new vis.DataSet(graphData.nodes);
+        const edges = new vis.DataSet(graphData.edges.map(edge => ({
+            from: edge.source,
+            to: edge.target,
+            width: Math.max(1, edge.similarity * 3),
+            color: { color: '#999', opacity: edge.similarity }
+        })));
+
+        const data = {
+            nodes: nodes,
+            edges: edges
+        };
+
+        const options = {
+            physics: {
+                stabilization: true,
+                barnesHut: {
+                    gravitationalConstant: -2000,
+                    centralGravity: 0.3,
+                    springLength: 150,
+                    springConstant: 0.04,
+                    damping: 0.09,
+                    avoidOverlap: 0.5
+                }
+            },
+            interaction: {
+                hover: true,
+                tooltipDelay: 200,
+                zoomView: true,
+                dragView: true
+            },
+            nodes: {
+                shape: 'dot',
+                size: 20,
+                font: {
+                    size: 14,
+                    face: 'Arial',
+                    color: '#333'
+                },
+                borderWidth: 2,
+                shadow: true
+            },
+            edges: {
+                smooth: {
+                    type: 'continuous',
+                    forceDirection: 'none',
+                    roundness: 0.5
+                },
+                arrows: {
+                    to: { enabled: false }
+                }
+            },
+            groups: {
+                'Projects': { color: '#FF6B6B' },
+                'Areas': { color: '#4ECDC4' },
+                'Resources': { color: '#45B7D1' },
+                'Archives': { color: '#96CEB4' }
+            }
+        };
+
+        const network = new vis.Network(container, data, options);
+
+        // Update stats
+        document.getElementById('graph-stats').textContent = 
+            `${graphData.nodes.length} nodes, ${graphData.edges.length} edges`;
+
+        // Fit to screen after stabilization
+        network.once('stabilizationIterationsDone', function() {
+            network.fit();
+        });
+    </script>
+</body>
+</html>

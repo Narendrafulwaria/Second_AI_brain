@@ -19,7 +19,7 @@ SIMILARITY_THRESHOLD = 0.75
 TOP_K_LINKS = 5
 RAG_TOP_K = 5
 
-GROQ_MODEL = "llama3-8b-8192"
+GROQ_MODEL = "llama-3.3-70b-versatile"
 
 load_dotenv(ROOT / ".env")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
