@@ -7,17 +7,21 @@ Features: Knowledge graph visualization + Ask-your-brain Q&A.
 """
 
 import json
+import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Any
 
+import requests
 import streamlit as st
+from bs4 import BeautifulSoup
 from jinja2 import Template
 
 # Try to use cloud config for Streamlit deployment, fall back to local config
 try:
-    from config_cloud import GRAPH_PATH, WIKI_DIR, PARA_CATEGORIES
+    from config_cloud import GRAPH_PATH, WIKI_DIR, PARA_CATEGORIES, RAW_DIR
 except ImportError:
-    from config import GRAPH_PATH, WIKI_DIR, PARA_CATEGORIES
+    from config import GRAPH_PATH, WIKI_DIR, PARA_CATEGORIES, RAW_DIR
 
 from ask import ask
 
@@ -142,6 +146,51 @@ def get_wiki_stats() -> Dict[str, Any]:
     return stats
 
 
+def generate_id() -> str:
+    """Return an 8-character hex string from uuid.uuid4()."""
+    return uuid.uuid4().hex[:8]
+
+
+def get_timestamp() -> str:
+    """Return UTC time in ISO 8601 format: 2026-07-16T10:30:00Z"""
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def extract_url_content(url: str) -> Dict[str, Any]:
+    """Extract content from URL."""
+    result = {"url": url}
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+        title = soup.find('title')
+        if title:
+            result["title"] = title.get_text().strip()
+        # Extract first paragraph as preview
+        first_p = soup.find('p')
+        if first_p:
+            result["preview"] = first_p.get_text().strip()[:200]
+    except Exception as e:
+        st.warning(f"Could not fetch link content: {e}")
+    return result
+
+
+def save_capture(capture: Dict[str, Any]) -> str:
+    """Save capture to raw/ directory as JSON."""
+    capture_id = capture["id"]
+    timestamp = capture["timestamp"]
+    
+    # Sanitize timestamp for filesystem
+    safe_timestamp = timestamp.replace(":", "-").replace("Z", "")
+    filename = f"{capture_id}_{safe_timestamp}.json"
+    filepath = RAW_DIR / filename
+    
+    with open(filepath, 'w', encoding='utf-8') as f:
+        json.dump(capture, f, indent=2)
+    
+    return str(filepath)
+
+
 def main():
     """Main Streamlit app."""
     
@@ -180,18 +229,94 @@ def main():
         st.markdown("---")
         st.markdown("### 📖 Usage")
         st.markdown("""
-1. **Capture**: Add notes via `capture.py`
+1. **Capture**: Add notes via web interface or CLI
 2. **Classify**: Run `classify.py` 
 3. **Link**: Run `link.py`
 4. **Graph**: Auto-updates here
 5. **Ask**: Use the Q&A panel below
         """)
     
-    # Main content area
-    col1, col2 = st.columns([1, 1])
+    # Main content area with tabs
+    tab1, tab2, tab3 = st.tabs(["📝 Capture", "🧠 Knowledge Graph", "💬 Ask Your Brain"])
     
-    # Left column: Knowledge Graph
-    with col1:
+    # Tab 1: Capture
+    with tab1:
+        st.markdown('<h2 class="section-header">📝 Capture Notes</h2>', unsafe_allow_html=True)
+        
+        capture_type = st.radio("Capture Type", ["Text Note", "URL Link"], horizontal=True)
+        
+        if capture_type == "Text Note":
+            note_content = st.text_area(
+                "Enter your note:",
+                placeholder="Write your note here...",
+                height=150
+            )
+            
+            if st.button("Capture Note", type="primary"):
+                if note_content.strip():
+                    capture = {
+                        "id": generate_id(),
+                        "timestamp": get_timestamp(),
+                        "type": "note",
+                        "content": note_content.strip()
+                    }
+                    filepath = save_capture(capture)
+                    st.success(f"✓ Note captured successfully: {Path(filepath).name}")
+                    st.rerun()
+                else:
+                    st.warning("Please enter a note.")
+        
+        else:  # URL Link
+            url_input = st.text_input(
+                "Enter URL:",
+                placeholder="https://example.com/article"
+            )
+            
+            if st.button("Capture Link", type="primary"):
+                if url_input.strip():
+                    with st.spinner("Fetching content..."):
+                        content_data = extract_url_content(url_input.strip())
+                        capture = {
+                            "id": generate_id(),
+                            "timestamp": get_timestamp(),
+                            "type": "link",
+                            **content_data
+                        }
+                        filepath = save_capture(capture)
+                        st.success(f"✓ Link captured successfully: {Path(filepath).name}")
+                        if "title" in content_data:
+                            st.info(f"Title: {content_data['title']}")
+                        st.rerun()
+                else:
+                    st.warning("Please enter a URL.")
+        
+        # Show recent captures
+        st.markdown("---")
+        st.markdown("### Recent Captures")
+        
+        raw_files = sorted(RAW_DIR.glob("*.json"), reverse=True)[:5]
+        if raw_files:
+            for filepath in raw_files:
+                try:
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        capture = json.load(f)
+                    
+                    with st.expander(f"{capture['timestamp']} - {capture['type'].upper()}"):
+                        if capture['type'] == 'note':
+                            st.text(capture.get('content', ''))
+                        elif capture['type'] == 'link':
+                            st.markdown(f"**URL:** {capture.get('url', '')}")
+                            if 'title' in capture:
+                                st.markdown(f"**Title:** {capture['title']}")
+                            if 'preview' in capture:
+                                st.text(capture['preview'])
+                except Exception as e:
+                    st.error(f"Error reading {filepath.name}: {e}")
+        else:
+            st.info("No captures yet. Use the form above to add your first note.")
+    
+    # Tab 2: Knowledge Graph
+    with tab2:
         st.markdown('<h2 class="section-header">🧠 Knowledge Graph</h2>', unsafe_allow_html=True)
         
         if node_count > 0:
@@ -202,14 +327,14 @@ def main():
             No notes in your knowledge base yet.
             
             To get started:
-            1. Run `python capture.py --note "your first note"`
+            1. Capture notes using the Capture tab
             2. Run `python classify.py`
             3. Run `python link.py`
             4. Refresh this page
             """)
     
-    # Right column: Ask Your Brain
-    with col2:
+    # Tab 3: Ask Your Brain
+    with tab3:
         st.markdown('<h2 class="section-header">💬 Ask Your Brain</h2>', unsafe_allow_html=True)
         
         # Question input
