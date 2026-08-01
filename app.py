@@ -13,7 +13,12 @@ from typing import Dict, Any
 import streamlit as st
 from jinja2 import Template
 
-from config import GRAPH_PATH, WIKI_DIR, PARA_CATEGORIES
+# Try to use cloud config for Streamlit deployment, fall back to local config
+try:
+    from config_cloud import GRAPH_PATH, WIKI_DIR, PARA_CATEGORIES
+except ImportError:
+    from config import GRAPH_PATH, WIKI_DIR, PARA_CATEGORIES
+
 from ask import ask
 
 

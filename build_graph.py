@@ -14,7 +14,11 @@ from typing import Dict, List, Any
 
 import frontmatter
 
-from config import WIKI_DIR, GRAPH_PATH, PARA_CATEGORIES
+# Try to use cloud config for Streamlit deployment, fall back to local config
+try:
+    from config_cloud import WIKI_DIR, GRAPH_PATH, PARA_CATEGORIES
+except ImportError:
+    from config import WIKI_DIR, GRAPH_PATH, PARA_CATEGORIES
 
 
 # PARA color scheme for node visualization

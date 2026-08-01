@@ -1,4 +1,8 @@
-from config import require_groq_api_key, GROQ_MODEL
+# Try to use cloud config for Streamlit deployment, fall back to local config
+try:
+    from config_cloud import require_groq_api_key, GROQ_MODEL
+except ImportError:
+    from config import require_groq_api_key, GROQ_MODEL
 from groq import Groq
 
 try:

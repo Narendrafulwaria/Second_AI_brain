@@ -3,6 +3,9 @@ venv/
 __pycache__/
 *.pyc
 data/embeddings/*.npy
+data/graph.json
+raw/processed/
+wiki/.obsidian/
 .DS_Store
 verify_phase1.py
 *.log

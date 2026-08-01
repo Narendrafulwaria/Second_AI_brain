@@ -3,7 +3,11 @@ import time
 from pathlib import Path
 from typing import List, Dict, Any
 
-from config import RAW_DIR, RAW_PROCESSED_DIR, PARA_CATEGORIES, require_groq_api_key, GROQ_MODEL
+# Try to use cloud config for Streamlit deployment, fall back to local config
+try:
+    from config_cloud import RAW_DIR, RAW_PROCESSED_DIR, PARA_CATEGORIES, require_groq_api_key, GROQ_MODEL
+except ImportError:
+    from config import RAW_DIR, RAW_PROCESSED_DIR, PARA_CATEGORIES, require_groq_api_key, GROQ_MODEL
 
 
 def load_raw_captures() -> List[Dict[str, Any]]:

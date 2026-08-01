@@ -4,7 +4,11 @@ from pathlib import Path
 from typing import Dict, List, Any, Tuple
 import frontmatter
 
-from config import WIKI_DIR, EMBEDDINGS_DIR, EMBEDDING_MODEL, SIMILARITY_THRESHOLD, TOP_K_LINKS
+# Try to use cloud config for Streamlit deployment, fall back to local config
+try:
+    from config_cloud import WIKI_DIR, EMBEDDINGS_DIR, EMBEDDING_MODEL, SIMILARITY_THRESHOLD, TOP_K_LINKS
+except ImportError:
+    from config import WIKI_DIR, EMBEDDINGS_DIR, EMBEDDING_MODEL, SIMILARITY_THRESHOLD, TOP_K_LINKS
 
 
 # Global model instance (singleton pattern)

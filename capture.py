@@ -8,7 +8,11 @@ from typing import Dict, Any
 import requests
 from bs4 import BeautifulSoup
 
-from config import RAW_DIR
+# Try to use cloud config for Streamlit deployment, fall back to local config
+try:
+    from config_cloud import RAW_DIR
+except ImportError:
+    from config import RAW_DIR
 
 
 def generate_id() -> str:

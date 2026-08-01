@@ -14,14 +14,25 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 from groq import Groq
 
-from config import (
-    EMBEDDINGS_DIR,
-    WIKI_DIR,
-    EMBEDDING_MODEL,
-    RAG_TOP_K,
-    GROQ_MODEL,
-    require_groq_api_key,
-)
+# Try to use cloud config for Streamlit deployment, fall back to local config
+try:
+    from config_cloud import (
+        EMBEDDINGS_DIR,
+        WIKI_DIR,
+        EMBEDDING_MODEL,
+        RAG_TOP_K,
+        GROQ_MODEL,
+        require_groq_api_key,
+    )
+except ImportError:
+    from config import (
+        EMBEDDINGS_DIR,
+        WIKI_DIR,
+        EMBEDDING_MODEL,
+        RAG_TOP_K,
+        GROQ_MODEL,
+        require_groq_api_key,
+    )
 
 
 # Global model cache
